@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Simran ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Georgia,serif;text-align:center;color:white;background:linear-gradient(145deg,#ff4f91,#9b39c9,#351052);min-height:100vh}
+section{padding:35px 18px;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+h1{font-size:clamp(32px,8vw,58px);text-shadow:0 0 18px #ffb8dc}
+p{font-size:19px;line-height:1.7;max-width:600px}
+button{background:#fff;color:#c52c76;border:0;border-radius:30px;padding:14px 25px;font-size:17px;margin:10px;cursor:pointer}
+.hidden{display:none}
+.cake{font-size:100px;cursor:pointer}
+.heart{font-size:70px;animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.25)}}
+img{max-width:90%;max-height:55vh;border-radius:20px;box-shadow:0 0 25px pink}
+#balloons{position:fixed;inset:0;pointer-events:none;font-size:35px}
+</style>
+</head>
+<body>
+<div id="balloons"></div>
+
+<section id="countdown">
+<h1>💗 Simran 💗</h1>
+<p>Your special birthday surprise is waiting...</p>
+<h2 id="timer">Loading...</h2>
+<p>Made with love, just for you ❤️</p>
+</section>
+
+<section id="cake" class="hidden">
+<h1>First, make a wish 🎂</h1>
+<div class="cake" onclick="blow()">🎂</div>
+<p>Tap the cake to blow the candle 🕯️</p>
+<button onclick="blow()">Blow the candle 💨</button>
+</section>
+
+<section id="letter" class="hidden">
+<h1>Happy Birthday, Simran! 🎉</h1>
+<p>My favourite person, you make ordinary moments feel magical. I hope your birthday brings you all the happiness your heart deserves. You are truly special to me. ❤️</p>
+<button onclick="show('memories')">Our memories 📸</button>
+</section>
+
+<section id="memories" class="hidden">
+<h1>Our Beautiful Memories 📸</h1>
+<p>Every memory with you is precious to me. 💕</p>
+<img id="memory" src="memory1.jpg" alt="Our memory">
+<div><button onclick="prev()">⬅ Previous</button><button onclick="next()">Next ➡</button></div>
+<button onclick="show('reveal')">Continue 💗</button>
+</section>
+
+<section id="reveal" class="hidden">
+<h1>HAPPY BIRTHDAY SIMRAN! 💖</h1>
+<div class="heart">❤️</div>
+<p>You deserve a universe full of love, smiles and beautiful surprises.</p>
+<button onclick="show('gift')">Open your magic gift 🎁</button>
+</section>
+
+<section id="gift" class="hidden">
+<h1>Your Magic Gift 🎁</h1>
+<div style="font-size:100px" onclick="this.innerHTML='💖'">🎁</div>
+<p>A little magic, a lot of love, and a wish that your dreams come true. ✨</p>
+<button onclick="show('moon')">Next surprise 🌙</button>
+</section>
+
+<section id="moon" class="hidden">
+<h1>For You, Under the Moon 🌙</h1>
+<div style="font-size:100px">🌙✨🦋</div>
+<p>Even the moon looks less beautiful beside the light you bring into my life.</p>
+<button onclick="show('final')">One last message 💌</button>
+</section>
+
+<section id="final" class="hidden">
+<h1>Simran, You Are Special 💕</h1>
+<div class="heart">❤️</div>
+<p>No matter how many birthdays come and go, I hope life keeps giving you reasons to smile. Thank you for being you. Happy Birthday, meri favourite person. 🥹💗</p>
+<h2>Forever sending you love — Sandeep ❤️</h2>
+</section>
+
+<script>
+const target=new Date("2026-10-27T00:00:00+05:30").getTime();
+let unlocked=false,idx=1;
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");window.scrollTo(0,0)}
+function tick(){
+let left=target-Date.now();
+if(left<=0){document.getElementById("timer").innerText="It's your birthday! 🎉";if(!unlocked){unlocked=true;show("cake")}return}
+let d=Math.floor(left/86400000),h=Math.floor(left%86400000/3600000),m=Math.floor(left%3600000/60000),s=Math.floor(left%60000/1000);
+document.getElementById("timer").innerText=`${d}d ${h}h ${m}m ${s}s`;
+}
+function blow(){
+if(Date.now()<target){alert("Your surprise unlocks at midnight on 27 October! ❤️");return}
+show("letter");document.getElementById("balloons").innerText="🎈🎉🎈💖🎈🎉🎈";
+setTimeout(()=>document.getElementById("balloons").innerText="",5000);
+try{
+let c=new (window.AudioContext||window.webkitAudioContext)(),notes=[392,392,440,392,523,494,392,392,440,392,587,523];
+notes.forEach((n,i)=>{let o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=n;g.gain.value=.08;o.start(c.currentTime+i*.28);o.stop(c.currentTime+i*.28+.22)});
+}catch(e){}
+}
+function next(){idx=idx%6+1;document.getElementById("memory").src="memory"+idx+".jpg"}
+function prev(){idx=idx===1?6:idx-1;document.getElementById("memory").src="memory"+idx+".jpg"}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
